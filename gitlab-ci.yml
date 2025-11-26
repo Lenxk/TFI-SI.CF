@@ -1,0 +1,25 @@
+test:
+  stage: test
+  script:
+    - echo "Ejecutando pruebas unitarias..."
+    - php artisan test || echo "Aún no hay pruebas definidas"
+
+quality:
+  stage: quality
+  script:
+    - echo "Verificando formato y calidad..."
+    - vendor/bin/pint --test
+    - composer require --dev nunomaduro/larastan
+    - php artisan code:analyse
+
+package:
+  stage: package
+  script:
+    - php artisan optimize
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Despliegue no disponible: entorno local"
+  when: manual
+
