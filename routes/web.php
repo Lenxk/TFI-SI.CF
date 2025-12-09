@@ -6,14 +6,16 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductBatchController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -27,7 +29,11 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('products', ProductController::class);
+
+    // Lotes de producto (gestión de stock por producto)
+    Route::resource('products.batches', ProductBatchController::class)->shallow();
 });
+
 
 
 require __DIR__.'/auth.php';

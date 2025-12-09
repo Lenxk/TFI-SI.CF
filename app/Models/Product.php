@@ -22,12 +22,16 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function scopeLowStock($query)
+    public function batches()
+    {
+    return $this->hasMany(ProductBatch::class);
+    }
+
+        public function scopeLowStock($query)
     {
     return $query
         ->where('min_stock', '>', 0)
         ->whereColumn('stock', '<=', 'min_stock');
     }
-
 }
 

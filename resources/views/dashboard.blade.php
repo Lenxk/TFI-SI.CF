@@ -6,8 +6,127 @@
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
+            {{-- Resumen de alertas --}}
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+
+                {{-- Productos con stock crítico --}}
+                <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                    <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                        Productos con stock crítico
+                    </h3>
+                    <p class="mt-2 text-3xl font-bold text-red-600">
+                        {{ $lowStockCount }}
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Stock por debajo del mínimo configurado.
+                    </p>
+                </div>
+
+                {{-- Lotes por vencer --}}
+                <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                    <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                        Lotes por vencer (30 días)
+                    </h3>
+                    <p class="mt-2 text-3xl font-bold text-yellow-500">
+                        {{ $expiringSoonCount }}
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Revisar antes de que venzan.
+                    </p>
+                </div>
+
+                {{-- Lotes vencidos --}}
+                <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                    <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                        Lotes vencidos
+                    </h3>
+                    <p class="mt-2 text-3xl font-bold text-red-500">
+                        {{ $expiredCount }}
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Retirar del stock físico.
+                    </p>
+                </div>
+
+            </div>
+
+            {{-- Listas detalladas --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                {{-- Productos con stock crítico --}}
+                <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                    <h3 class="text-md font-semibold text-gray-800 dark:text-gray-100 mb-3">
+                        Productos con stock crítico
+                    </h3>
+
+                    @if ($lowStockProducts->isEmpty())
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                            No hay productos en estado crítico.
+                        </p>
+                    @else
+                        <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+                            @foreach ($lowStockProducts as $product)
+                                <li class="py-2 flex justify-between items-center">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800 dark:text-gray-100">
+                                            {{ $product->name }}
+                                        </p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                                            Stock: {{ $product->stock }} / Mínimo: {{ $product->min_stock }}
+                                        </p>
+                                    </div>
+
+                                    <a href="{{ route('products.edit', $product) }}"
+                                       class="text-xs text-sky-600 hover:underline">
+                                        Ver producto
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+
+                {{-- Lotes por vencer --}}
+                <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                    <h3 class="text-md font-semibold text-gray-800 dark:text-gray-100 mb-3">
+                        Lotes por vencer (30 días)
+                    </h3>
+
+                    @if ($expiringSoonBatches->isEmpty())
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                            No hay lotes próximos a vencer.
+                        </p>
+                    @else
+                        <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+                            @foreach ($expiringSoonBatches as $batch)
+                                <li class="py-2 flex justify-between items-center">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800 dark:text-gray-100">
+                                            {{ $batch->product->name }}
+                                            @if ($batch->lot_code) (Lote: {{ $batch->lot_code }}) @endif
+                                        </p>
+
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                                            Cantidad: {{ $batch->quantity }} —
+                                            Vence: {{ $batch->expires_at->format('d/m/Y') }}
+                                        </p>
+                                    </div>
+
+                                    <a href="{{ route('products.batches.index', $batch->product) }}"
+                                       class="text-xs text-sky-600 hover:underline">
+                                        Ver lotes
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+
+            </div>
+
+            {{-- Tarjetas principales (Productos / Categorías) --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
 
                 {{-- Tarjeta Productos --}}
@@ -31,8 +150,6 @@
                         Administrar categorías (Medicamentos, Perfumería, etc.).
                     </p>
                 </a>
-
-                {{-- Podés agregar más tarjetas después (Clientes, Pedidos, etc.) --}}
 
             </div>
 
