@@ -34,6 +34,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('products.batches', ProductBatchController::class)->shallow();
 });
 
+Route::resource('purchases', PurchaseController::class);
+
+
 
 
 require __DIR__.'/auth.php';

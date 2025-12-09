@@ -126,32 +126,44 @@
 
             </div>
 
-            {{-- Tarjetas principales (Productos / Categorías) --}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+           {{-- Tarjetas principales (Productos / Categorías / Compras) --}}
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
 
-                {{-- Tarjeta Productos --}}
-                <a href="{{ route('products.index') }}"
-                   class="block bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-md transition">
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
-                        Productos
-                    </h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-300">
-                        Ver y gestionar los productos de la farmacia.
-                    </p>
-                </a>
+    {{-- Tarjeta Productos --}}
+    <a href="{{ route('products.index') }}"
+       class="block bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-md transition">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+            Productos
+        </h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+            Ver y gestionar los productos de la farmacia.
+        </p>
+    </a>
 
-                {{-- Tarjeta Categorías --}}
-                <a href="{{ route('categories.index') }}"
-                   class="block bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-md transition">
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
-                        Categorías
-                    </h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-300">
-                        Administrar categorías (Medicamentos, Perfumería, etc.).
-                    </p>
-                </a>
+    {{-- Tarjeta Categorías --}}
+    <a href="{{ route('categories.index') }}"
+       class="block bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-md transition">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+            Categorías
+        </h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+            Administrar categorías (Medicamentos, Perfumería, etc.).
+        </p>
+    </a>
 
-            </div>
+    {{-- Tarjeta Compras --}}
+    <a href="{{ route('purchases.index') }}"
+       class="block bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-md transition">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+            Compras
+        </h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+            Registrar compras y ver historial de ingresos.
+        </p>
+    </a>
+
+</div>
+
 
         </div>
     </div>
