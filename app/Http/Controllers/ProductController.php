@@ -31,6 +31,7 @@ class ProductController extends Controller
             'stock' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image',
+            'min_stock' => 'nullable|integer|min:0',
         ]);
 
         if ($request->hasFile('image')) {
@@ -57,6 +58,7 @@ class ProductController extends Controller
             'stock' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image',
+            'min_stock' => 'nullable|integer|min:0',
         ]);
 
         if ($request->hasFile('image')) {

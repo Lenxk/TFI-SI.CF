@@ -65,6 +65,19 @@
                         @enderror
                     </div>
 
+                    {{-- Stock mínimo (alerta) --}}
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Stock mínimo (alerta)
+                        </label>
+                        <input type="number" name="min_stock" value="{{ old('min_stock') }}"
+                               class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700
+                                      dark:bg-gray-900 dark:text-gray-100 shadow-sm">
+                        @error('min_stock')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     {{-- Categoría --}}
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
