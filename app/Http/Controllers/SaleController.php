@@ -29,7 +29,7 @@ class SaleController extends Controller
             'sale_date' => 'required|date',
             'notes' => 'nullable|string',
 
-            'items.*.product_id' => 'required|exists:productos,id',
+            'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
         ]);
 

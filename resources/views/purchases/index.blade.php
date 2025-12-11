@@ -39,6 +39,9 @@
                                 <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                                     Acciones
                                 </th>
+                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
+                                    Proveedor
+                                </th>
                             </tr>
                         </thead>
 
@@ -46,37 +49,37 @@
                             @foreach ($purchases as $purchase)
                                 <tr>
                                     <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
-                                        {{ \Carbon\Carbon::parse($purchase->purchase_date)->format('d/m/Y') }}
+                                    {{ \Carbon\Carbon::parse($purchase->purchase_date)->format('d/m/Y') }}
                                     </td>
 
                                     <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
-                                        {{ $purchase->supplier }}
+                                    {{ $purchase->supplier?->name ?? 'Sin proveedor' }}
                                     </td>
 
                                     <td class="px-4 py-2 text-gray-800 dark:text-gray-100">
-                                        {{ $purchase->total ? '$' . number_format($purchase->total, 2, ',', '.') : '—' }}
+                                    {{ $purchase->total ? '$' . number_format($purchase->total, 2, ',', '.') : '—' }}
                                     </td>
 
                                     <td class="px-4 py-2 flex space-x-3">
 
-    {{-- Ver --}}
-    <a href="{{ route('purchases.show', $purchase) }}"
-       class="text-blue-600 hover:underline">
-        Ver
-    </a>
+                        {{-- Ver --}}
+                            <a href="{{ route('purchases.show', $purchase) }}"
+                            class="text-blue-600 hover:underline">
+                                Ver
+                            </a>
 
-    {{-- Eliminar --}}
-    <form action="{{ route('purchases.destroy', $purchase) }}" 
-          method="POST"
-          onsubmit="return confirm('¿Seguro que querés eliminar esta compra? Esto revertirá el stock.')">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="text-red-600 hover:underline">
-            Eliminar
-        </button>
-    </form>
+                        {{-- Eliminar --}}
+                            <form action="{{ route('purchases.destroy', $purchase) }}" 
+                            method="POST"
+                            onsubmit="return confirm('¿Seguro que querés eliminar esta compra? Esto revertirá el stock.')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 hover:underline">
+                            Eliminar
+                            </button>
+                        </form>
 
-</td>
+                        </td>
 
                                 </tr>
                             @endforeach

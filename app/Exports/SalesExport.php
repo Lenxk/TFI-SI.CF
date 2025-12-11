@@ -2,10 +2,10 @@
 
 namespace App\Exports;
 
-use App\Models\Sale;
+use App\Models\CustomerSale;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Illuminate\Http\Request;
 
 class SalesExport implements FromCollection, WithHeadings
 {
@@ -18,8 +18,10 @@ class SalesExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $query = Sale::with('items.product')->orderBy('sale_date', 'desc');
+        // Cambiamos Sale → CustomerSale
+        $query = CustomerSale::with('items.product')->orderBy('sale_date', 'desc');
 
+        // Filtros opcionales
         if ($this->request->filled('from')) {
             $query->whereDate('sale_date', '>=', $this->request->from);
         }
@@ -34,11 +36,12 @@ class SalesExport implements FromCollection, WithHeadings
             });
         }
 
+        // Mapeamos para exportar sólo los datos necesarios
         return $query->get()->map(function ($sale) {
             return [
-                'ID' => $sale->id,
-                'Fecha' => $sale->sale_date,
-                'Total' => $sale->total,
+                'ID'             => $sale->id,
+                'Fecha'          => $sale->sale_date,
+                'Total Vendido'  => number_format($sale->total, 2, ',', '.'),
                 'Items Vendidos' => $sale->items->sum('quantity'),
             ];
         });
@@ -49,9 +52,8 @@ class SalesExport implements FromCollection, WithHeadings
         return [
             'ID',
             'Fecha',
-            'Total',
-            'Items Vendidos'
+            'Total Vendido',
+            'Items Vendidos',
         ];
     }
 }
-

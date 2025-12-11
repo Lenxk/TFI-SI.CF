@@ -46,6 +46,11 @@ Route::get('/reports/sales/export', [ReportController::class, 'exportSales'])->n
 Route::get('/reports/purchases', [ReportController::class, 'purchases'])->name('reports.purchases');
 Route::get('/reports/purchases/export', [ReportController::class, 'exportPurchases'])->name('reports.purchases.export');
 
+Route::get('/audits', [AuditController::class, 'index'])->name('audits.index');
+
+Route::resource('suppliers', SupplierController::class);
+
+Route::resource('customer-sales', CustomerSaleController::class);
 
 
 require __DIR__.'/auth.php';

@@ -3,24 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\Auditable;
 
-class PurchaseItem extends Model
+class CustomerSaleItem extends Model
 {
-    use Auditable;
-
     protected $fillable = [
-        'purchase_id',
+        'customer_sale_id',
         'product_id',
         'quantity',
         'unit_price',
-        'lot_code',
-        'expires_at',
     ];
 
-    public function purchase()
+    public function sale()
     {
-        return $this->belongsTo(Purchase::class);
+        return $this->belongsTo(CustomerSale::class, 'customer_sale_id');
     }
 
     public function product()

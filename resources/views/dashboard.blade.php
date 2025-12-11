@@ -162,14 +162,26 @@
         </p>
     </a>
 
+    {{-- Tarjeta Ventas --}}
+    <a href="{{ route('customer-sales.index') }}"
+   class="block bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-md transition">
+    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+        Ventas al público
+    </h3>
+    <p class="text-sm text-gray-600 dark:text-gray-300">
+        Registrar y consultar ventas realizadas en la farmacia.
+    </p>
+</a>
+
+
      {{-- Tarjeta Reportes Ventas --}}
     <a href="{{ route('reports.sales') }}"
    class="block bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-md transition">
     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
-        Reportes
+        Reporte de Ventas
     </h3>
     <p class="text-sm text-gray-600 dark:text-gray-300">
-        Filtrar y exportar reportes de ventas.
+        Ver ventas al público filtradas y exportarlas a Excel.
     </p>
     </a>
 
@@ -183,6 +195,18 @@
         Filtrar y exportar compras registradas.
     </p>
     </a>
+
+    {{-- Tarjeta Proveedores --}}
+    <a href="{{ route('suppliers.index') }}"
+   class="block bg-white dark:bg-gray-800 p-6 rounded shadow hover:shadow-md transition">
+    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+        Proveedores
+    </h3>
+    <p class="text-sm text-gray-600 dark:text-gray-300">
+        Gestión de proveedores de la farmacia.
+    </p>
+</a>
+
 
 
 </div>

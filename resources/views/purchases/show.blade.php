@@ -22,6 +22,8 @@
                 <p class="text-gray-700 dark:text-gray-300"><strong>Total:</strong> 
                     {{ $purchase->total ? '$' . number_format($purchase->total, 2, ',', '.') : '—' }}
                 </p>
+                <p><strong>Proveedor:</strong> {{ $purchase->supplier->name }}</p>
+
 
                 @if($purchase->notes)
                     <p class="text-gray-700 dark:text-gray-300 mt-2"><strong>Notas:</strong> {{ $purchase->notes }}</p>

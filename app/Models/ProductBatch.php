@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use App\Traits\Auditable;
 
 class ProductBatch extends Model
 {
+    use Auditable;
+    
     protected $fillable = [
         'product_id',
-        'supplier',
+        'supplier_id',
         'lot_code',
         'quantity',
         'expires_at',
@@ -40,6 +43,11 @@ class ProductBatch extends Model
             now()->startOfDay(),
             now()->addDays($days)->endOfDay(),
         ]);
+    }
+
+    public function supplier()
+    {
+    return $this->belongsTo(Supplier::class);
     }
 
 }

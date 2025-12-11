@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductBatch;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class ProductBatchController extends Controller
@@ -17,23 +18,26 @@ class ProductBatchController extends Controller
 
     public function create(Product $product)
     {
-        return view('batches.create', compact('product'));
+        // Para elegir proveedor al crear lote
+        $providers = Supplier::orderBy('name')->get();
+
+        return view('batches.create', compact('product', 'providers'));
     }
 
     public function store(Request $request, Product $product)
     {
         $data = $request->validate([
-            'supplier'   => 'nullable|string|max:255',
-            'lot_code'   => 'nullable|string|max:255',
-            'quantity'   => 'required|integer|min:1',
-            'expires_at' => 'nullable|date',
+            'supplier_id' => 'required|exists:suppliers,id',
+            'lot_code'    => 'nullable|string|max:255',
+            'quantity'    => 'required|integer|min:1',
+            'expires_at'  => 'nullable|date',
         ]);
 
         $data['product_id'] = $product->id;
 
         $batch = ProductBatch::create($data);
 
-        // Actualizar stock total del producto
+        // Aumentar stock del producto
         $product->increment('stock', $batch->quantity);
 
         return redirect()
@@ -44,24 +48,25 @@ class ProductBatchController extends Controller
     public function edit(ProductBatch $batch)
     {
         $product = $batch->product;
+        $providers = Supplier::orderBy('name')->get();
 
-        return view('batches.edit', compact('product', 'batch'));
+        return view('batches.edit', compact('product', 'batch', 'providers'));
     }
 
     public function update(Request $request, ProductBatch $batch)
     {
         $data = $request->validate([
-            'supplier'   => 'nullable|string|max:255',
-            'lot_code'   => 'nullable|string|max:255',
-            'quantity'   => 'required|integer|min:1',
-            'expires_at' => 'nullable|date',
+            'supplier_id' => 'required|exists:suppliers,id',
+            'lot_code'    => 'nullable|string|max:255',
+            'quantity'    => 'required|integer|min:1',
+            'expires_at'  => 'nullable|date',
         ]);
 
         $oldQuantity = $batch->quantity;
 
         $batch->update($data);
 
-        // Ajustar stock del producto (sumamos la diferencia)
+        // Ajustar stock según diferencia
         $difference = $batch->quantity - $oldQuantity;
         $batch->product->increment('stock', $difference);
 
@@ -74,7 +79,7 @@ class ProductBatchController extends Controller
     {
         $product = $batch->product;
 
-        // Restar la cantidad del lote al stock del producto
+        // Restar al stock
         $product->decrement('stock', $batch->quantity);
 
         $batch->delete();

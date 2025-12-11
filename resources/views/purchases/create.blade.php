@@ -31,10 +31,23 @@
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                 Proveedor *
                             </label>
-                            <input type="text" name="supplier"
-                                   class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700
-                                          dark:bg-gray-900 dark:text-gray-100 shadow-sm"
-                                   value="{{ old('supplier') }}" required>
+                            <div class="mb-4">
+    <select name="supplier_id"
+            class="mt-1 w-full rounded border-gray-300 dark:bg-gray-900 dark:text-gray-200">
+        <option value="">Seleccionar...</option>
+
+        @foreach($providers as $p)
+            <option value="{{ $p->id }}"
+                {{ old('supplier_id') == $p->id ? 'selected' : '' }}>
+                {{ $p->name }}
+            </option>
+        @endforeach
+    </select>
+    @error('supplier_id')
+    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+    @enderror
+</div>
+
                         </div>
 
                         {{-- Fecha de compra --}}

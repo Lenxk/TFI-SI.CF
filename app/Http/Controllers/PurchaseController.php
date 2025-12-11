@@ -7,6 +7,8 @@ use App\Models\ProductBatch;
 use App\Models\Purchase;
 use App\Models\PurchaseItem;
 use Illuminate\Http\Request;
+use App\Models\Supplier;
+
 
 class PurchaseController extends Controller
 {
@@ -18,16 +20,17 @@ class PurchaseController extends Controller
     }
 
     public function create()
-    {
-        $products = Product::orderBy('name')->get();
+{
+    $products = Product::orderBy('name')->get();
+    $providers = Supplier::orderBy('name')->get();
 
-        return view('purchases.create', compact('products'));
-    }
+    return view('purchases.create', compact('products', 'providers'));
+}
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'supplier'       => 'required|string|max:255',
+            'supplier_id' => 'required|exists:suppliers,id',
             'purchase_date'  => 'required|date',
             'notes'          => 'nullable|string',
 
@@ -49,7 +52,7 @@ class PurchaseController extends Controller
 
         // Crear la compra
         $purchase = Purchase::create([
-            'supplier'      => $data['supplier'],
+            'supplier_id'      => $data['supplier_id'],
             'purchase_date' => $data['purchase_date'],
             'notes'         => $data['notes'] ?? null,
             'total'         => $total > 0 ? $total : null,
@@ -70,7 +73,7 @@ class PurchaseController extends Controller
             // Crear lote
             $batch = ProductBatch::create([
                 'product_id' => $itemData['product_id'],
-                'supplier'   => $data['supplier'],
+                'supplier_id'   => $data['supplier_id'],
                 'lot_code'   => $itemData['lot_code'] ?? null,
                 'quantity'   => $itemData['quantity'],
                 'expires_at' => $itemData['expires_at'] ?? null,
