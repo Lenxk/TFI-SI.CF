@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductBatchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,6 +40,11 @@ Route::resource('purchases', PurchaseController::class);
 
 Route::resource('sales', SaleController::class)->middleware('auth');
 
+Route::get('/reports/sales', [ReportController::class, 'sales'])->name('reports.sales');
+Route::get('/reports/sales/export', [ReportController::class, 'exportSales'])->name('reports.sales.export');
+
+Route::get('/reports/purchases', [ReportController::class, 'purchases'])->name('reports.purchases');
+Route::get('/reports/purchases/export', [ReportController::class, 'exportPurchases'])->name('reports.purchases.export');
 
 
 

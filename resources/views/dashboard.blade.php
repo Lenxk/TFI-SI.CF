@@ -162,6 +162,29 @@
         </p>
     </a>
 
+     {{-- Tarjeta Reportes Ventas --}}
+    <a href="{{ route('reports.sales') }}"
+   class="block bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-md transition">
+    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+        Reportes
+    </h3>
+    <p class="text-sm text-gray-600 dark:text-gray-300">
+        Filtrar y exportar reportes de ventas.
+    </p>
+    </a>
+
+     {{-- Tarjeta Reportes Compras --}}
+    <a href="{{ route('reports.purchases') }}"
+   class="block bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-md transition">
+    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+        Reporte de Compras
+    </h3>
+    <p class="text-sm text-gray-600 dark:text-gray-300">
+        Filtrar y exportar compras registradas.
+    </p>
+    </a>
+
+
 </div>
 
 
