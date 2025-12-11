@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductBatchController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SaleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::resource('purchases', PurchaseController::class);
+
+Route::resource('sales', SaleController::class)->middleware('auth');
 
 
 
